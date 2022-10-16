@@ -1,25 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
+import {TasksAPIService} from "./tasks-api.service";
+import {Task} from "./interfaces";
 
-interface Task {
-  done: boolean,
-  title: string
-}
-
-export interface Fields {
-  Status: string;
-  Name: string;
-}
-
-export interface Record {
-  id: string;
-  createdTime: Date;
-  fields: Fields;
-}
-
-export interface TasksResponse {
-  records: Record[];
-}
 
 @Component({
   selector: 'app-todo-card',
@@ -34,23 +17,11 @@ export class TodoCardComponent implements OnInit, OnDestroy {
 
   inputTask = 'Nueva tarea';
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private tasksApi: TasksAPIService) {
   }
 
-  ngOnInit() : void {
-
-    const response = this.httpClient.get<TasksResponse>('https://api.airtable.com/v0/appqD6eBxxY65Joqn/Tasks?maxRecords=100&view=Grid%20view', {
-      headers: {
-        Authorization: 'Bearer keyJZUGC9aq6uKfqd'
-      }
-    })
-
-    response.subscribe((it) => {
-      this.tasks = it.records.map((it) => {
-        return { title: it.fields.Name, done: it.fields.Status === 'Done'}
-      });
-      console.log(this.tasks);
-    })
+  async ngOnInit() : Promise<void> {
+    this.tasks = await this.tasksApi.getTasks()
 
     // this.tasks.push({ title: 'Comprar gomitas', done: false});
     // this.tasks.push({ title: 'Conseguir dinero para las gomitas', done: true});
