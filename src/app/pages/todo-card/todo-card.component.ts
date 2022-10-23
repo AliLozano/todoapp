@@ -32,8 +32,9 @@ export class TodoCardComponent implements OnInit, OnDestroy {
 
   }
 
-  addTask() {
-    this.tasks.push({ title: this.inputTask, done: false});
+  async addTask() {
+    await this.tasksApi.createTasks({ title: this.inputTask, done: false});
+    this.tasks = await this.tasksApi.getTasks();
   }
 
   deleteTask(task: Task) {

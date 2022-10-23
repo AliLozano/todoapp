@@ -23,6 +23,26 @@ export class TasksAPIService {
     });
   }
 
+  async createTasks(task: Task): Promise<void> {
+    await firstValueFrom(this.httpClient.post<TasksResponse>('https://api.airtable.com/v0/appqD6eBxxY65Joqn/Tasks',
+      {
+        "records": [
+          {
+            "fields": {
+              "Name": task.title,
+              "Status": task.done ? "Done" : "In progress"
+            }
+          }
+        ]
+      },
+      {
+      headers: {
+        Authorization: 'Bearer keyJZUGC9aq6uKfqd'
+      }
+    }))
+  }
+
+
 
   /*
   getTasks(): Observable<Task[]> {
