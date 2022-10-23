@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  airtableKey: 'keyJZUGC9aq6uKfqd'
 };

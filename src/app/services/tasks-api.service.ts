@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {firstValueFrom, map, Observable} from "rxjs";
-import {TasksResponse, Task} from "./interfaces";
+import {TasksResponse, Task} from "../pages/todo-card/interfaces";
+import {environment} from "../../environments/environment";
 
 
 @Injectable({
@@ -15,7 +16,7 @@ export class TasksAPIService {
   async getTasks(): Promise<Task[]> {
     const response = await firstValueFrom(this.httpClient.get<TasksResponse>('https://api.airtable.com/v0/appqD6eBxxY65Joqn/Tasks?maxRecords=100&view=Grid%20view', {
       headers: {
-        Authorization: 'Bearer keyJZUGC9aq6uKfqd'
+        Authorization: `Bearer ${environment.airtableKey}`
       }
     }))
     return response.records.map((it) => {
@@ -37,7 +38,7 @@ export class TasksAPIService {
       },
       {
       headers: {
-        Authorization: 'Bearer keyJZUGC9aq6uKfqd'
+        Authorization: `Bearer ${environment.airtableKey}`
       }
     }))
   }

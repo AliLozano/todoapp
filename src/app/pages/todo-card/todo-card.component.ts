@@ -1,7 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {TasksAPIService} from "./tasks-api.service";
+import {TasksAPIService} from "../../services/tasks-api.service";
 import {Task} from "./interfaces";
+import {AuthenticationService} from "../../config/authentication.service";
+import {Router} from "@angular/router";
 
 
 @Component({

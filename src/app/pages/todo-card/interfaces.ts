@@ -3,17 +3,36 @@ export interface Task {
   title: string
 }
 
-export interface Fields {
+export interface TaskFields {
   Status: string;
   Name: string;
 }
 
-export interface Record {
+export interface TaskRecord {
   id: string;
   createdTime: Date;
-  fields: Fields;
+  fields: TaskFields;
 }
 
 export interface TasksResponse {
-  records: Record[];
+  records: TaskRecord[];
+}
+
+
+
+
+export interface UserFields {
+  Email: string;
+  Name: string;
+  Password: string;
+}
+
+export interface UserRecord {
+  id: string;
+  createdTime: Date;
+  fields: UserFields;
+}
+
+export interface UserResponse {
+  records: UserRecord[];
 }
