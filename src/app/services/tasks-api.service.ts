@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {firstValueFrom, map, Observable} from "rxjs";
-import {TasksResponse, Task} from "../pages/todo-card/interfaces";
+import {TasksResponse, Task, TaskRecord} from "../pages/todo-card/interfaces";
 import {environment} from "../../environments/environment";
+import {AuthenticationService} from "../config/authentication.service";
 
 
 @Injectable({
@@ -10,35 +11,22 @@ import {environment} from "../../environments/environment";
 })
 export class TasksAPIService {
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private authenticationService: AuthenticationService) {
   }
 
   async getTasks(): Promise<Task[]> {
-    const response = await firstValueFrom(this.httpClient.get<TasksResponse>('https://api.airtable.com/v0/appqD6eBxxY65Joqn/Tasks?maxRecords=100&view=Grid%20view', {
+    const response = await firstValueFrom(this.httpClient.get<Task[]>(`${environment.apiUrl}/api/tasks/`, {
       headers: {
-        Authorization: `Bearer ${environment.airtableKey}`
+        Authorization: '' + this.authenticationService.getUser()?.token
       }
     }))
-    return response.records.map((it) => {
-      return {title: it.fields.Name, done: it.fields.Status === 'Done'}
-    });
+    return response;
   }
 
   async createTasks(task: Task): Promise<void> {
-    await firstValueFrom(this.httpClient.post<TasksResponse>('https://api.airtable.com/v0/appqD6eBxxY65Joqn/Tasks',
-      {
-        "records": [
-          {
-            "fields": {
-              "Name": task.title,
-              "Status": task.done ? "Done" : "In progress"
-            }
-          }
-        ]
-      },
-      {
+    await firstValueFrom(this.httpClient.post<Task>(`${environment.apiUrl}/api/tasks/`, task, {
       headers: {
-        Authorization: `Bearer ${environment.airtableKey}`
+        Authorization: '' + this.authenticationService.getUser()?.token
       }
     }))
   }

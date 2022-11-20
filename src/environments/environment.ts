@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  airtableKey: 'keyJZUGC9aq6uKfqd'
+  airtableKey: 'keyJZUGC9aq6uKfqd',
+  apiUrl: 'http://localhost:8080'
 };
 
 /*

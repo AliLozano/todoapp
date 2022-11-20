@@ -21,18 +21,8 @@ export interface TasksResponse {
 
 
 
-export interface UserFields {
-  Email: string;
-  Name: string;
-  Password: string;
-}
-
-export interface UserRecord {
-  id: string;
-  createdTime: Date;
-  fields: UserFields;
-}
 
 export interface UserResponse {
-  records: UserRecord[];
+  id: string;
+  username: string;
 }
