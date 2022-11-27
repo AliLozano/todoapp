@@ -23,7 +23,7 @@
     <!-- Sección tareas -->
     <div *ngFor="let task of tasks" class="border border-gray-200 rounded my-2 p-2 text-gray-500 flex items-center">
       <label class="flex-grow">
-        <input type="checkbox" [(ngModel)]="task.done" class="mr-4">
+        <input type="checkbox" [(ngModel)]="task.done" class="mr-4" (ngModelChange)="sync(task)">
         <span [class]="task.done ? 'line-through' : ''">{{ task.title }}</span>
         <span *ngIf="task.done">
         ✅

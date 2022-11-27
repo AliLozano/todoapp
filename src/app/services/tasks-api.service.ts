@@ -49,4 +49,11 @@ export class TasksAPIService {
   }
   */
 
+  async updateTask(task: Task) {
+    await firstValueFrom(this.httpClient.post<Task>(`${environment.apiUrl}/api/tasks/update`, task, {
+      headers: {
+        Authorization: '' + this.authenticationService.getUser()?.token
+      }
+    }))
+  }
 }
